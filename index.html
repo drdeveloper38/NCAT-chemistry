@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCAT Crash Course – E-Test</title>
+
+<style>
+/* Base Styles */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: #1e3a8a;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 3px solid #2563eb;
+  padding-bottom: 15px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Button Styles */
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #2563eb;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin: 10px 5px;
+}
+
+button:hover {
+  background: #1e40af;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+button#shuffleBtn {
+  background: #059669;
+}
+
+button#shuffleBtn:hover {
+  background: #047857;
+}
+
+button#adminBtn {
+  background: #7c3aed;
+}
+
+button#adminBtn:hover {
+  background: #5b21b6;
+}
+
+/* Form Styles */
+label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: 600;
+  color: #374151;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Timer Styles */
+#timer {
+  font-size: 20px;
+  font-weight: bold;
+  color: #dc2626;
+  text-align: center;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #fef2f2;
+  border-radius: 8px;
+  border: 2px solid #fecaca;
+}
+
+/* Question Styles */
+.question-block {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 10px;
+  border-left: 5px solid #2563eb;
+}
+
+.question-block p {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 15px;
+}
+
+.option {
+  display: block;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option:hover {
+  background: #f0f9ff;
+  border-color: #93c5fd;
+}
+
+.option input[type="radio"] {
+  margin-right: 12px;
+  transform: scale(1.2);
+}
+
+/* Certificate Styles */
+#certificate {
+  border: 3px dashed #1e3a8a;
+  padding: 30px;
+  text-align: center;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  margin-top: 30px;
+  border-radius: 15px;
+}
+
+#certificate h3 {
+  color: #1e3a8a;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+#certText {
+  font-size: 18px;
+  color: #374151;
+  line-height: 1.8;
+}
+
+/* Academy Image Styles */
+.academy-image {
+  text-align: center;
+  margin: 20px 0 30px;
+}
+
+.academy-image img {
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.academy-name {
+  text-align: center;
+  color: #1e3a8a;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 15px 0;
+  padding: 10px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+  border-radius: 8px;
+}
+
+/* Button Container */
+.button-container {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #e5e7eb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    margin: 15px auto;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 15px;
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  .question-block {
+    padding: 15px;
+  }
+  
+  .question-block p {
+    font-size: 16px;
+  }
+  
+  .academy-image img {
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 15px;
+  }
+  
+  h1 {
+    font-size: 1.3rem;
+  }
+  
+  #timer {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .option {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  #certificate {
+    padding: 20px;
+  }
+  
+  #certificate h3 {
+    font-size: 22px;
+  }
+  
+  #certText {
+    font-size: 16px;
+  }
+  
+  .academy-name {
+    font-size: 1.2rem;
+  }
+}
+
+/* Desktop Optimization */
+@media (min-width: 1024px) {
+  .container {
+    padding: 40px;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  .question-block {
+    padding: 25px;
+  }
+  
+  .academy-image img {
+    max-height: 250px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN SECTION -->
+<div class="container" id="loginSection">
+  <div class="academy-image">
+    <!-- Replace with your academy/course image -->
+    <img src="logo.png"
+         alt="NCAT Academy - Learning Center">
+  </div>
+  
+  <div class="academy-name">
+    NWA - Excellence in Education
+  </div>
+  
+  <h1>9th Physics - 1 to 4 Chapters</h1>
+  
+  <label for="studentName">Student Name</label>
+  <input id="studentName" type="text" placeholder="Enter your full name"><br><br>
+  
+  <label for="fatherName">Father Name</label>
+  <input id="fatherName" type="text" placeholder="Enter father's name"><br><br>
+  
+  <label for="district">District</label>
+  <input id="district" type="text" placeholder="Enter your district"><br><br>
+  
+  <label for="testPass">Test Password</label>
+  <input id="testPass" type="password" placeholder="Enter test password"><br><br>
+  
+  <div class="button-container">
+    <button onclick="startTest()">Start Test</button>
+  </div>
+</div>
+
+<!-- TEST SECTION -->
+<div class="container hidden" id="testSection">
+  <div id="timer"></div>
+  <div id="questionsContainer"></div>
+  
+  <div class="button-container">
+    <button id="shuffleBtn" onclick="shuffleQuestions()">Shuffle Questions & Restart</button>
+    <button onclick="submitTest()">Submit Test</button>
+  </div>
+</div>
+
+<!-- STUDENT RESULT -->
+<div class="container hidden" id="studentResult">
+  <h2>Your Result</h2>
+  <p id="resultText"></p>
+  
+  <div id="certificate" class="hidden">
+    <h3>Certificate of Passing</h3>
+    <p id="certText"></p>
+    <p><strong>Issued by: NCAT Academy</strong></p>
+    <p><em>Date: <span id="certDate"></span></em></p>
+  </div>
+  
+  <div class="button-container">
+    <button onclick="resetTest()">Take Another Test</button>
+  </div>
+</div>
+
+<script>
+/* SETTINGS */
+const TEST_PASSWORD = "ncat2026";
+const TEST_START = new Date('2026-01-09T09:00:00');
+const TEST_END   = new Date('2026-01-20T12:00:00');
+const DURATION   = 80 * 60;
+
+/* QUESTIONS ARRAY - Each question has text, options array, and correct answer (1-4) */
+const ORIGINAL_QUESTIONS = [
+  /* { question: "Powerhouse of the cell is?", options: ["Mitochondria", "Nucleus", "Ribosome", "Golgi Apparatus"], correct: 1 }, */
+  {
+    "question": "Which branch of physics deals with heat and temperature?",
+    "options": ["Mechanics", "Thermodynamics", "Electromagnetism", "Optics"],
+    "correct": 2
+  },
+  {
+    "question": "The instrument used to measure very small diameters (like a wire) is:",
+    "options": ["Meter rule", "Vernier calipers", "Screw gauge", "Measuring cylinder"],
+    "correct": 3
+  },
+  {
+    "question": "The SI unit of density is:",
+    "options": ["g/cm³", "kg/m³", "m/s²", "N/m²"],
+    "correct": 2
+  },
+  {
+    "question": "How many significant figures are in 0.00560?",
+    "options": ["2", "3", "5", "6"],
+    "correct": 2
+  },
+  {
+    "question": "Which prefix means 10⁻³?",
+    "options": ["Kilo", "Centi", "Milli", "Micro"],
+    "correct": 3
+  },
+  {
+    "question": "The volume of a liquid is best measured with a:",
+    "options": ["Stopwatch", "Physical balance", "Measuring cylinder", "Vernier calipers"],
+    "correct": 3
+  },
+  {
+    "question": "Density =",
+    "options": ["Mass × Volume", "Volume / Mass", "Mass / Volume", "Weight × Volume"],
+    "correct": 3
+  },
+  {
+    "question": "The least count of a Vernier caliper is typically:",
+    "options": ["0.1 cm", "0.01 cm", "0.001 cm", "1 cm"],
+    "correct": 2
+  },
+  {
+    "question": "Scientific notation for 0.00032 is:",
+    "options": ["3.2 × 10⁴", "32 × 10⁻⁵", "3.2 × 10⁻⁴", "0.32 × 10⁻³"],
+    "correct": 3
+  },
+  {
+    "question": "Which is a derived unit?",
+    "options": ["Meter", "Kilogram", "Second", "Newton"],
+    "correct": 4
+  },
+  {
+    "question": "The study of light is called:",
+    "options": ["Acoustics", "Optics", "Nuclear physics", "Quantum physics"],
+    "correct": 2
+  },
+  {
+    "question": "A physical balance measures:",
+    "options": ["Time", "Volume", "Mass", "Length"],
+    "correct": 3
+  },
+  {
+    "question": "Which instrument has the highest precision for length measurement?",
+    "options": ["Meter rule", "Vernier calipers", "Screw gauge", "Measuring tape"],
+    "correct": 3
+  },
+  {
+    "question": "1 km = ______ m.",
+    "options": ["10", "100", "1000", "10000"],
+    "correct": 3
+  },
+  {
+    "question": "Significant figures indicate:",
+    "options": ["Magnitude only", "Accuracy of measurement", "Direction of measurement", "Unit used"],
+    "correct": 2
+  },
+  {
+    "question": "The study of motion without considering its cause is called:",
+    "options": ["Dynamics", "Kinematics", "Statics", "Thermodynamics"],
+    "correct": 2
+  },
+  {
+    "question": "Which is a vector quantity?",
+    "options": ["Distance", "Speed", "Mass", "Displacement"],
+    "correct": 4
+  },
+  {
+    "question": "If a body is moving with constant speed, its acceleration is:",
+    "options": ["Zero", "Increasing", "Decreasing", "Constant but non-zero"],
+    "correct": 1
+  },
+  {
+    "question": "The slope of a distance-time graph gives:",
+    "options": ["Acceleration", "Velocity", "Speed", "Displacement"],
+    "correct": 3
+  },
+  {
+    "question": "A car travels 60 m in 3 s. Its speed is:",
+    "options": ["20 m/s", "180 m/s", "0.05 m/s", "15 m/s"],
+    "correct": 1
+  },
+  {
+    "question": "Which motion is an example of vibratory motion?",
+    "options": ["Earth revolving around Sun", "Spinning top", "Pendulum of a clock", "Car moving straight"],
+    "correct": 3
+  },
+  {
+    "question": "Acceleration is defined as the rate of change of:",
+    "options": ["Distance", "Speed", "Velocity", "Displacement"],
+    "correct": 3
+  },
+  {
+    "question": "In a distance-time graph, a horizontal line means the body is:",
+    "options": ["Moving with constant speed", "At rest", "Accelerating", "Decelerating"],
+    "correct": 2
+  },
+  {
+    "question": "The area under a speed-time graph represents:",
+    "options": ["Acceleration", "Distance traveled", "Velocity", "Time taken"],
+    "correct": 2
+  },
+  {
+    "question": "A body moving in a circle with constant speed has:",
+    "options": ["Constant velocity", "Zero acceleration", "Variable velocity", "Uniform motion in a straight line"],
+    "correct": 3
+  },
+  {
+    "question": "If a person walks 10 m east and then 10 m west, his displacement is:",
+    "options": ["20 m", "10 m", "0 m", "14.14 m"],
+    "correct": 3
+  },
+  {
+    "question": "The SI unit of acceleration is:",
+    "options": ["m/s", "m/s²", "m²/s", "s/m"],
+    "correct": 2
+  },
+  {
+    "question": "Which of the following is NOT a type of translatory motion?",
+    "options": ["Linear", "Random", "Circular", "Rotatory"],
+    "correct": 4
+  },
+  {
+    "question": "Freely falling bodies have an acceleration equal to:",
+    "options": ["9.8 m/s²", "0 m/s²", "10 m/s² (approx)", "Both a and c"],
+    "correct": 4
+  },
+  {
+    "question": "A speed-time graph sloping upwards indicates:",
+    "options": ["Deceleration", "Constant speed", "Acceleration", "Rest"],
+    "correct": 3
+  },
+  {
+    "question": "The first equation of motion is:",
+    "options": ["v = u + at", "s = ut + ½at²", "v² = u² + 2as", "s = vt"],
+    "correct": 1
+  },
+  {
+    "question": "If initial velocity is 2 m/s, acceleration is 3 m/s², time is 4 s, final velocity is:",
+    "options": ["14 m/s", "10 m/s", "12 m/s", "8 m/s"],
+    "correct": 1
+  },
+  {
+    "question": "A scalar quantity has:",
+    "options": ["Magnitude only", "Direction only", "Both magnitude and direction", "None"],
+    "correct": 1
+  },
+  {
+    "question": "Rest and motion are:",
+    "options": ["Absolute", "Relative", "Always same", "Independent of observer"],
+    "correct": 2
+  },
+  {
+    "question": "A body is said to be in uniform motion if it:",
+    "options": ["Covers unequal distances in equal intervals", "Covers equal distances in unequal intervals", "Covers equal distances in equal intervals", "Remains stationary"],
+    "correct": 3
+  },
+  {
+    "question": "The motion of a spinning fan is:",
+    "options": ["Translatory", "Vibratory", "Rotatory", "Random"],
+    "correct": 3
+  },
+  {
+    "question": "In circular motion, the direction of velocity is:",
+    "options": ["Constant", "Always toward center", "Always tangential", "Radial"],
+    "correct": 3
+  },
+  {
+    "question": "If speed-time graph is a curve, acceleration is:",
+    "options": ["Zero", "Constant", "Variable", "Negative"],
+    "correct": 3
+  },
+  {
+    "question": "A ball thrown upward has ______ acceleration during upward motion.",
+    "options": ["Positive", "Negative", "Zero", "Increasing"],
+    "correct": 2
+  },
+  {
+    "question": "The formula for distance in uniformly accelerated motion is:",
+    "options": ["s = ut", "s = ut + ½at²", "s = vt", "s = (u+v)/2"],
+    "correct": 2
+  },
+  {
+    "question": "Which graph represents a body at rest?",
+    "options": ["Straight line sloping upwards", "Straight line parallel to time axis", "Curved line", "Straight line sloping downwards"],
+    "correct": 2
+  },
+  {
+    "question": "Velocity of a body can change due to change in:",
+    "options": ["Speed only", "Direction only", "Both speed and direction", "Neither"],
+    "correct": 3
+  },
+  {
+    "question": "An object moving with constant velocity has:",
+    "options": ["Zero acceleration", "Constant acceleration", "Increasing acceleration", "Decreasing acceleration"],
+    "correct": 1
+  },
+  {
+    "question": "If u = 0, a = 5 m/s², t = 2 s, then s =",
+    "options": ["10 m", "20 m", "5 m", "15 m"],
+    "correct": 1
+  },
+  {
+    "question": "The equation v² = u² + 2as is used when ______ is not given.",
+    "options": ["Acceleration", "Time", "Displacement", "Velocity"],
+    "correct": 2
+  },
+  {
+    "question": "A cyclist moving on a straight road is an example of:",
+    "options": ["Circular motion", "Linear motion", "Random motion", "Rotatory motion"],
+    "correct": 2
+  },
+  {
+    "question": "Acceleration due to gravity is taken as ______ in numerical problems.",
+    "options": ["5 m/s²", "10 m/s²", "15 m/s²", "20 m/s²"],
+    "correct": 2
+  },
+  {
+    "question": "If a speed-time graph is a straight line parallel to time axis, the body is moving with:",
+    "options": ["Uniform acceleration", "Uniform speed", "Variable speed", "Zero speed"],
+    "correct": 2
+  },
+  {
+    "question": "Which is NOT a vector?",
+    "options": ["Displacement", "Velocity", "Distance", "Acceleration"],
+    "correct": 3
+  },
+  {
+    "question": "The motion of a butterfly is:",
+    "options": ["Linear", "Circular", "Random", "Rotatory"],
+    "correct": 3
+  },
+  {
+    "question": "Dynamics is the study of:",
+    "options": ["Motion only", "Causes of motion", "Forces only", "Energy"],
+    "correct": 2
+  },
+  {
+    "question": "Momentum is defined as:",
+    "options": ["Mass × Acceleration", "Force × Time", "Mass × Velocity", "Velocity ÷ Time"],
+    "correct": 3
+  },
+  {
+    "question": "The SI unit of momentum is:",
+    "options": ["kg m/s", "N/s", "N m", "J/s"],
+    "correct": 1
+  },
+  {
+    "question": "Law of conservation of momentum states that total momentum of a system remains constant if:",
+    "options": ["External force acts", "Internal forces are present", "No external force acts", "Collision is elastic"],
+    "correct": 3
+  },
+  {
+    "question": "In a collision between two objects, momentum is conserved in:",
+    "options": ["Only elastic collisions", "Only inelastic collisions", "Both elastic and inelastic collisions", "Neither"],
+    "correct": 3
+  },
+  {
+    "question": "Force can be expressed as:",
+    "options": ["Mass × Velocity", "Change in momentum/Change in time", "Mass × Distance", "Velocity/Time"],
+    "correct": 2
+  },
+  {
+    "question": "Crumple zones in cars are designed to:",
+    "options": ["Increase stopping time", "Decrease stopping time", "Increase force of impact", "Make cars look better"],
+    "correct": 1
+  },
+  {
+    "question": "Newton's First Law is also called:",
+    "options": ["Law of Acceleration", "Law of Action-Reaction", "Law of Inertia", "Law of Momentum"],
+    "correct": 3
+  },
+  {
+    "question": "Newton's Second Law is mathematically expressed as:",
+    "options": ["F = mv", "F = m/a", "F = ma", "F = p/t"],
+    "correct": 3
+  },
+  {
+    "question": "If mass = 5 kg and acceleration = 2 m/s², force =",
+    "options": ["10 N", "2.5 N", "7 N", "20 N"],
+    "correct": 1
+  },
+  {
+    "question": "Weight of an object is:",
+    "options": ["Same everywhere", "Mass × Acceleration due to gravity", "A scalar quantity", "Measured in kg"],
+    "correct": 2
+  },
+  {
+    "question": "If mass = 10 kg, weight on Earth (g=10 m/s²) =",
+    "options": ["10 N", "100 N", "1 N", "1000 N"],
+    "correct": 2
+  },
+  {
+    "question": "A body moving in a circular path experiences:",
+    "options": ["Centrifugal force outward", "Centripetal force inward", "No force", "Tangential force only"],
+    "correct": 2
+  },
+  {
+    "question": "Centripetal force formula is:",
+    "options": ["F = mvr", "F = mv²/r", "F = mr/v", "F = v²/r"],
+    "correct": 2
+  },
+  {
+    "question": "Friction is a force that:",
+    "options": ["Helps motion", "Opposes motion", "Has no effect on motion", "Only acts in liquids"],
+    "correct": 2
+  },
+  {
+    "question": "Which friction is the smallest?",
+    "options": ["Static friction", "Sliding friction", "Rolling friction", "Fluid friction"],
+    "correct": 3
+  },
+  {
+    "question": "Braking of a car depends on:",
+    "options": ["Engine power", "Friction between tires and road", "Color of car", "Weight only"],
+    "correct": 2
+  },
+  {
+    "question": "Action and reaction forces:",
+    "options": ["Act on same body", "Act on different bodies", "Cancel each other completely", "Are always equal but in same direction"],
+    "correct": 2
+  },
+  {
+    "question": "If a body is moving with uniform velocity, net force acting on it is:",
+    "options": ["Maximum", "Zero", "Increasing", "Decreasing"],
+    "correct": 2
+  },
+  {
+    "question": "The force that keeps planets in orbit is:",
+    "options": ["Friction", "Magnetic force", "Gravitational force", "Electrostatic force"],
+    "correct": 3
+  },
+  {
+    "question": "Inertia of an object depends on its:",
+    "options": ["Volume", "Mass", "Velocity", "Shape"],
+    "correct": 2
+  },
+  {
+    "question": "When a gun is fired, it recoils. This demonstrates:",
+    "options": ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Law of inertia"],
+    "correct": 3
+  },
+  {
+    "question": "Safety belts work by:",
+    "options": ["Increasing impact force", "Decreasing stopping time", "Increasing stopping distance", "Decreasing stopping distance"],
+    "correct": 3
+  },
+  {
+    "question": "A parachute increases air resistance to:",
+    "options": ["Increase falling speed", "Decrease falling speed", "Change direction", "Make it look colorful"],
+    "correct": 2
+  },
+  {
+    "question": "If momentum changes from 20 kg m/s to 0 kg m/s in 5 seconds, average force =",
+    "options": ["4 N", "100 N", "25 N", "0 N"],
+    "correct": 1
+  },
+  {
+    "question": "The turning effect of a force is called:",
+    "options": ["Momentum", "Torque or Moment", "Couple", "Inertia"],
+    "correct": 2
+  },
+  {
+    "question": "Moment of force =",
+    "options": ["Force × Distance", "Force × Perpendicular distance from pivot", "Mass × Acceleration", "Force/Area"],
+    "correct": 2
+  },
+  {
+    "question": "SI unit of moment of force is:",
+    "options": ["Joule", "Watt", "Newton-meter", "Pascal"],
+    "correct": 3
+  },
+  {
+    "question": "A spanner is made long to:",
+    "options": ["Look good", "Increase moment arm", "Decrease force needed", "Both b and c"],
+    "correct": 4
+  },
+  {
+    "question": "Principle of moments states that for equilibrium:",
+    "options": ["Sum of clockwise moments = Sum of anticlockwise moments", "All forces are equal", "Sum of forces = 0 only", "Body must be at rest"],
+    "correct": 1
+  },
+  {
+    "question": "Center of gravity of a regular object like a cube is at its:",
+    "options": ["Top", "Bottom", "Geometric center", "Any corner"],
+    "correct": 3
+  },
+  {
+    "question": "A pair of equal, opposite, parallel forces not in same line is called:",
+    "options": ["Moment", "Torque", "Couple", "Equilibrium"],
+    "correct": 3
+  },
+  {
+    "question": "Steering wheel of a car is an example of:",
+    "options": ["Single force turning", "Couple", "Lever", "Inclined plane"],
+    "correct": 2
+  },
+  {
+    "question": "For a body in equilibrium:",
+    "options": ["Net force = 0 only", "Net torque = 0 only", "Both net force = 0 and net torque = 0", "Either net force = 0 or net torque = 0"],
+    "correct": 3
+  },
+  {
+    "question": "Which state of equilibrium has the lowest center of gravity?",
+    "options": ["Stable", "Unstable", "Neutral", "All same"],
+    "correct": 1
+  },
+  {
+    "question": "A racing car has low center of gravity to:",
+    "options": ["Increase speed", "Improve stability", "Reduce weight", "Look sporty"],
+    "correct": 2
+  },
+  {
+    "question": "Head-to-tail rule is used for:",
+    "options": ["Adding vectors", "Multiplying vectors", "Finding center of gravity", "Calculating moments"],
+    "correct": 1
+  },
+  {
+    "question": "A force of 10 N acts at a perpendicular distance of 2 m from pivot. Moment =",
+    "options": ["5 Nm", "20 Nm", "12 Nm", "8 Nm"],
+    "correct": 2
+  },
+  {
+    "question": "Resolution of a force means:",
+    "options": ["Increasing it", "Splitting into perpendicular components", "Decreasing it", "Changing its direction"],
+    "correct": 2
+  },
+  {
+    "question": "A see-saw balances when:",
+    "options": ["Heavier person sits closer to pivot", "Lighter person sits closer to pivot", "Both sit at equal distances", "Either a or b"],
+    "correct": 4
+  },
+  {
+    "question": "If a force of 50 N is applied at 30° to horizontal, its vertical component is:",
+    "options": ["50 N", "25 N", "43.3 N", "28.9 N"],
+    "correct": 2
+  },
+  {
+    "question": "A body is in neutral equilibrium if when tilted:",
+    "options": ["It returns to original position", "It falls over", "It stays in new position", "It oscillates"],
+    "correct": 3
+  },
+  {
+    "question": "To increase stability of an object, we should:",
+    "options": ["Raise center of gravity", "Lower center of gravity", "Decrease base area", "Make it taller"],
+    "correct": 2
+  },
+  {
+    "question": "A bottle opener is an example of:",
+    "options": ["Lever (moment application)", "Screw", "Wheel and axle", "Inclined plane"],
+    "correct": 1
+  },
+  {
+    "question": "Unlike parallel forces:",
+    "options": ["Act in same direction", "Act in opposite directions", "Act at same point", "Have zero resultant"],
+    "correct": 2
+  },
+  {
+    "question": "The point where whole weight of body seems to act is called:",
+    "options": ["Center of mass", "Center of gravity", "Pivot point", "Fulcrum"],
+    "correct": 2
+  },
+  {
+    "question": "A meter rule balanced on a wedge verifies:",
+    "options": ["Newton's laws", "Principle of moments", "Law of inertia", "Conservation of energy"],
+    "correct": 2
+  },
+  {
+    "question": "Moment of a couple depends on:",
+    "options": ["Point about which moment is taken", "Only one force", "Distance between forces", "Direction of forces only"],
+    "correct": 3
+  },
+  {
+    "question": "For a door to open easily, handle is placed:",
+    "options": ["Near hinges", "At center", "Far from hinges", "Anywhere"],
+    "correct": 3
+  },
+  {
+    "question": "A tightrope walker uses a long pole to:",
+    "options": ["Lower center of gravity", "Increase weight", "Look balanced", "Increase height"],
+    "correct": 1
+  }
+];
+
+let questions = [...ORIGINAL_QUESTIONS];
+let shuffledQuestions = [];
+let timeLeft = DURATION;
+let timer;
+let testStarted = false;
+
+// Fisher-Yates shuffle algorithm
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function shuffleQuestions() {
+  if (confirm("Are you sure you want to shuffle questions and restart the test? Your current answers will be lost.")) {
+    clearInterval(timer);
+    shuffledQuestions = shuffleArray(questions);
+    displayQuestions();
+    timeLeft = DURATION;
+    startTimer();
+  }
+}
+
+function displayQuestions() {
+  const container = document.getElementById("questionsContainer");
+  container.innerHTML = "";
+  
+  const questionsToDisplay = shuffledQuestions.length > 0 ? shuffledQuestions : questions;
+  
+  questionsToDisplay.forEach((q, index) => {
+    const questionDiv = document.createElement("div");
+    questionDiv.className = "question-block";
+    
+    questionDiv.innerHTML = `
+      <p>${index + 1}. ${q.question}</p>
+      <label class="option">
+        <input type="radio" name="q${index}" value="1">
+        <span>${q.options[0]}</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q${index}" value="2">
+        <span>${q.options[1]}</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q${index}" value="3">
+        <span>${q.options[2]}</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q${index}" value="4">
+        <span>${q.options[3]}</span>
+      </label>
+    `;
+    container.appendChild(questionDiv);
+  });
+}
+
+function startTimer() {
+  timer = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    
+    document.getElementById("timer").innerHTML = 
+      `<i class="clock-icon">⏰</i> Time Left: ${minutes}:${seconds.toString().padStart(2, "0")}`;
+    
+    timeLeft--;
+    
+    if (timeLeft < 0) {
+      clearInterval(timer);
+      submitTest();
+    }
+    
+    // Color change when time is running out
+    if (timeLeft < 300) { // Less than 5 minutes
+      document.getElementById("timer").style.color = "#ef4444";
+      document.getElementById("timer").style.background = "#fee2e2";
+    }
+  }, 1000);
+}
+
+function startTest() {
+  const now = new Date();
+  if (now < TEST_START || now > TEST_END) {
+    alert("Test is not active at this time. Please check the test schedule.");
+    return;
+  }
+  
+  const studentName = document.getElementById("studentName").value.trim();
+  const fatherName = document.getElementById("fatherName").value.trim();
+  const district = document.getElementById("district").value.trim();
+  const password = document.getElementById("testPass").value;
+  
+  if (!studentName || !fatherName || !district || !password) {
+    alert("Please fill in all fields before starting the test.");
+    return;
+  }
+  
+  if (password !== TEST_PASSWORD) {
+    alert("Wrong Password. Please enter the correct test password.");
+    return;
+  }
+  
+  document.getElementById("loginSection").classList.add("hidden");
+  document.getElementById("testSection").classList.remove("hidden");
+  
+  testStarted = true;
+  shuffledQuestions = [];
+  displayQuestions();
+  startTimer();
+}
+
+function submitTest() {
+  clearInterval(timer);
+  
+  let score = 0;
+  const questionsToCheck = shuffledQuestions.length > 0 ? shuffledQuestions : questions;
+  
+  questionsToCheck.forEach((q, index) => {
+    const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+    if (selectedOption && parseInt(selectedOption.value) === q.correct) {
+      score++;
+    }
+  });
+  
+  const total = questionsToCheck.length;
+  const percent = Math.round((score / total) * 100);
+  const grade = percent >= 80 ? "A" : percent >= 60 ? "B" : percent >= 40 ? "C" : "Fail";
+  
+  const record = {
+    name: document.getElementById("studentName").value.trim(),
+    father: document.getElementById("fatherName").value.trim(),
+    district: document.getElementById("district").value.trim(),
+    score,
+    total,
+    percent,
+    grade,
+    date: new Date().toLocaleString(),
+    timestamp: new Date().getTime()
+  };
+  
+  // SAVE LOCALLY
+  let results = JSON.parse(localStorage.getItem("ncatResults")) || [];
+  results.push(record);
+  localStorage.setItem("ncatResults", JSON.stringify(results));
+  
+  // SHOW STUDENT RESULT
+  document.getElementById("testSection").classList.add("hidden");
+  document.getElementById("studentResult").classList.remove("hidden");
+  
+  document.getElementById("resultText").innerHTML = `
+    <strong>Name:</strong> ${record.name}<br>
+    <strong>Father's Name:</strong> ${record.father}<br>
+    <strong>District:</strong> ${record.district}<br>
+    <strong>Score:</strong> ${score}/${total}<br>
+    <strong>Percentage:</strong> ${percent}%<br>
+    <strong>Grade:</strong> ${grade}<br>
+    <strong>Date:</strong> ${record.date}
+  `;
+  
+  if (grade !== "Fail") {
+    document.getElementById("certificate").classList.remove("hidden");
+    document.getElementById("certText").innerHTML = 
+      `This certifies that <strong>${record.name}</strong>, S/O <strong>${record.father}</strong>, 
+      from <strong>${record.district}</strong> has successfully passed the NCAT Crash Course E-Test 
+      with grade <strong>${grade}</strong>.`;
+    document.getElementById("certDate").textContent = record.date;
+  }
+}
+
+function resetTest() {
+  // Clear form fields
+  document.getElementById("studentName").value = "";
+  document.getElementById("fatherName").value = "";
+  document.getElementById("district").value = "";
+  document.getElementById("testPass").value = "";
+  
+  // Reset all radio buttons
+  document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.checked = false;
+  });
+  
+  // Reset questions to original order
+  shuffledQuestions = [];
+  
+  // Show login section, hide others
+  document.getElementById("studentResult").classList.add("hidden");
+  document.getElementById("testSection").classList.add("hidden");
+  document.getElementById("loginSection").classList.remove("hidden");
+  
+  // Reset timer variables
+  timeLeft = DURATION;
+  testStarted = false;
+  
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+</script>
+
+<!-- ADMIN BUTTON -->
+<div style="text-align:center; margin-top: 20px;">
+  <button id="adminBtn">Admin Portal</button>
+</div>
+
+<script>
+document.getElementById("adminBtn").addEventListener("click", function() {
+  let pass = prompt("Enter Admin Password:");
+  if (pass === "a1ncat.123") {
+    window.open("results.html", "_blank");
+  } else {
+    alert("Wrong password. Access denied.");
+  }
+});
+</script>
+
+</body>
+</html>
