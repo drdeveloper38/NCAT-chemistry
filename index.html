@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCAT Crash Course – E-Test</title>
+
+<style>
+/* Base Styles */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: #1e3a8a;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 3px solid #2563eb;
+  padding-bottom: 15px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Button Styles */
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #2563eb;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin: 10px 5px;
+}
+
+button:hover {
+  background: #1e40af;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+button#shuffleBtn {
+  background: #059669;
+}
+
+button#shuffleBtn:hover {
+  background: #047857;
+}
+
+button#adminBtn {
+  background: #7c3aed;
+}
+
+button#adminBtn:hover {
+  background: #5b21b6;
+}
+
+/* Form Styles */
+label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: 600;
+  color: #374151;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Timer Styles */
+#timer {
+  font-size: 20px;
+  font-weight: bold;
+  color: #dc2626;
+  text-align: center;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #fef2f2;
+  border-radius: 8px;
+  border: 2px solid #fecaca;
+}
+
+/* Question Styles */
+.question-block {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 10px;
+  border-left: 5px solid #2563eb;
+}
+
+.question-block p {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 15px;
+}
+
+.option {
+  display: block;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option:hover {
+  background: #f0f9ff;
+  border-color: #93c5fd;
+}
+
+.option input[type="radio"] {
+  margin-right: 12px;
+  transform: scale(1.2);
+}
+
+/* Certificate Styles */
+#certificate {
+  border: 3px dashed #1e3a8a;
+  padding: 30px;
+  text-align: center;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  margin-top: 30px;
+  border-radius: 15px;
+}
+
+#certificate h3 {
+  color: #1e3a8a;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+#certText {
+  font-size: 18px;
+  color: #374151;
+  line-height: 1.8;
+}
+
+/* Academy Image Styles */
+.academy-image {
+  text-align: center;
+  margin: 20px 0 30px;
+}
+
+.academy-image img {
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.academy-name {
+  text-align: center;
+  color: #1e3a8a;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 15px 0;
+  padding: 10px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+  border-radius: 8px;
+}
+
+/* Button Container */
+.button-container {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #e5e7eb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    margin: 15px auto;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 15px;
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  .question-block {
+    padding: 15px;
+  }
+  
+  .question-block p {
+    font-size: 16px;
+  }
+  
+  .academy-image img {
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 15px;
+  }
+  
+  h1 {
+    font-size: 1.3rem;
+  }
+  
+  #timer {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .option {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  #certificate {
+    padding: 20px;
+  }
+  
+  #certificate h3 {
+    font-size: 22px;
+  }
+  
+  #certText {
+    font-size: 16px;
+  }
+  
+  .academy-name {
+    font-size: 1.2rem;
+  }
+}
+
+/* Desktop Optimization */
+@media (min-width: 1024px) {
+  .container {
+    padding: 40px;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  .question-block {
+    padding: 25px;
+  }
+  
+  .academy-image img {
+    max-height: 250px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN SECTION -->
+<div class="container" id="loginSection">
+  <div class="academy-image">
+    <!-- Replace with your academy/course image -->
+    <img src="logo.png"
+         alt="NCAT Academy - Learning Center">
+  </div>
+  
+  <div class="academy-name">
+    NWA - Excellence in Education
+  </div>
+  
+  <h1>9th Chemistry  - 1 to 4 Chapters</h1>
+  
+  <label for="studentName">Student Name</label>
+  <input id="studentName" type="text" placeholder="Enter your full name"><br><br>
+  
+  <label for="fatherName">Father Name</label>
+  <input id="fatherName" type="text" placeholder="Enter father's name"><br><br>
+  
+  <label for="district">District</label>
+  <input id="district" type="text" placeholder="Enter your district"><br><br>
+  
+  <label for="testPass">Test Password</label>
+  <input id="testPass" type="password" placeholder="Enter test password"><br><br>
+  
+  <div class="button-container">
+    <button onclick="startTest()">Start Test</button>
+  </div>
+</div>
+
+<!-- TEST SECTION -->
+<div class="container hidden" id="testSection">
+  <div id="timer"></div>
+  <div id="questionsContainer"></div>
+  
+  <div class="button-container">
+    <button id="shuffleBtn" onclick="shuffleQuestions()">Shuffle Questions & Restart</button>
+    <button onclick="submitTest()">Submit Test</button>
+  </div>
+</div>
+
+<!-- STUDENT RESULT -->
+<div class="container hidden" id="studentResult">
+  <h2>Your Result</h2>
+  <p id="resultText"></p>
+  
+  <div id="certificate" class="hidden">
+    <h3>Certificate of Passing</h3>
+    <p id="certText"></p>
+    <p><strong>Issued by: NCAT Academy</strong></p>
+    <p><em>Date: <span id="certDate"></span></em></p>
+  </div>
+  
+  <div class="button-container">
+    <button onclick="resetTest()">Take Another Test</button>
+  </div>
+</div>
+
+<script>
+/* SETTINGS */
+const TEST_PASSWORD = "ncat2026";
+const TEST_START = new Date('2026-01-09T09:00:00');
+const TEST_END   = new Date('2026-01-20T12:00:00');
+const DURATION   = 80 * 60;
+
+/* QUESTIONS ARRAY - Each question has text, options array, and correct answer (1-4) */
+const ORIGINAL_QUESTIONS = [
+  /* { question: "Powerhouse of the cell is?", options: ["Mitochondria", "Nucleus", "Ribosome", "Golgi Apparatus"], correct: 1 }, */
+  {
+    "question": "Who is known as the father of modern chemistry?",
+    "options": ["Jabir ibn Hayyan", "Robert Boyle", "Lavoisier", "Dalton"],
+    "correct": 3
+  },
+  {
+    "question": "The branch of chemistry that deals with carbon compounds is called:",
+    "options": ["Inorganic Chemistry", "Physical Chemistry", "Organic Chemistry", "Analytical Chemistry"],
+    "correct": 3
+  },
+  {
+    "question": "The smallest unit of an element that retains its properties is:",
+    "options": ["Molecule", "Ion", "Atom", "Compound"],
+    "correct": 3
+  },
+  {
+    "question": "Which of the following is a mixture?",
+    "options": ["Water (H₂O)", "Sodium Chloride (NaCl)", "Air", "Iron (Fe)"],
+    "correct": 3
+  },
+  {
+    "question": "A positively charged ion is called:",
+    "options": ["Anion", "Cation", "Free radical", "Molecule"],
+    "correct": 2
+  },
+  {
+    "question": "Avogadro's number is:",
+    "options": ["6.022 × 10²³", "6.022 × 10²²", "6.022 × 10²⁴", "6.022 × 10²¹"],
+    "correct": 1
+  },
+  {
+    "question": "The mass of one mole of carbon-12 atoms is:",
+    "options": ["12 g", "12 amu", "6 g", "24 g"],
+    "correct": 1
+  },
+  {
+    "question": "Which of the following is NOT a branch of chemistry?",
+    "options": ["Biochemistry", "Astrochemistry", "Geochemistry", "Alchemy"],
+    "correct": 4
+  },
+  {
+    "question": "The formula that shows the simplest whole-number ratio of atoms in a compound is:",
+    "options": ["Molecular formula", "Structural formula", "Empirical formula", "Ionic formula"],
+    "correct": 3
+  },
+  {
+    "question": "Which law must a balanced chemical equation obey?",
+    "options": ["Law of Multiple Proportions", "Law of Conservation of Mass", "Law of Definite Proportions", "Boyle's Law"],
+    "correct": 2
+  },
+  {
+    "question": "A species with an unpaired electron is called:",
+    "options": ["Ion", "Isotope", "Free radical", "Molecule"],
+    "correct": 3
+  },
+  {
+    "question": "Gram molecular mass of H₂O is:",
+    "options": ["18 g", "18 amu", "20 g", "16 g"],
+    "correct": 1
+  },
+  {
+    "question": "Who contributed significantly to early chemistry and laboratory equipment?",
+    "options": ["Newton", "Jabir ibn Hayyan", "Bohr", "Einstein"],
+    "correct": 2
+  },
+  {
+    "question": "How many atoms are in 1 mole of helium?",
+    "options": ["6.022 × 10²³ atoms", "3.011 × 10²³ atoms", "12.044 × 10²³ atoms", "1 atom"],
+    "correct": 1
+  },
+  {
+    "question": "The study of energy changes in chemical reactions is part of:",
+    "options": ["Organic Chemistry", "Physical Chemistry", "Inorganic Chemistry", "Analytical Chemistry"],
+    "correct": 2
+  },
+  {
+    "question": "NH₄⁺ is an example of:",
+    "options": ["Free radical", "Atomic ion", "Molecular ion", "Isotope"],
+    "correct": 3
+  },
+  {
+    "question": "The number of moles in 36 g of water is:",
+    "options": ["1 mole", "2 moles", "3 moles", "0.5 mole"],
+    "correct": 2
+  },
+  {
+    "question": "Which is a compound?",
+    "options": ["Oxygen gas (O₂)", "Salt water", "Carbon dioxide (CO₂)", "Brass"],
+    "correct": 3
+  },
+  {
+    "question": "The atomic mass unit (amu) is defined relative to:",
+    "options": ["Hydrogen-1", "Carbon-12", "Oxygen-16", "Carbon-14"],
+    "correct": 2
+  },
+  {
+    "question": "Which of the following is a chemical species?",
+    "options": ["Electron", "Photon", "Ion", "Neutrino"],
+    "correct": 3
+  },
+  {
+    "question": "The process of representing a chemical reaction with symbols is called:",
+    "options": ["Chemical notation", "Chemical equation", "Chemical formula", "Chemical symbolization"],
+    "correct": 2
+  },
+  {
+    "question": "A negatively charged ion is called:",
+    "options": ["Cation", "Anion", "Proton", "Neutron"],
+    "correct": 2
+  },
+  {
+    "question": "The number of molecules in 1 mole of any substance is:",
+    "options": ["6.022 × 10²³", "3.011 × 10²³", "12.044 × 10²³", "Depends on the substance"],
+    "correct": 1
+  },
+  {
+    "question": "Which of the following is a physical change?",
+    "options": ["Burning of wood", "Rusting of iron", "Melting of ice", "Cooking of food"],
+    "correct": 3
+  },
+  {
+    "question": "The branch dealing with pollutants and environment is:",
+    "options": ["Industrial Chemistry", "Environmental Chemistry", "Green Chemistry", "Both B and C"],
+    "correct": 4
+  },
+  {
+    "question": "Who discovered the electron?",
+    "options": ["Rutherford", "Goldstein", "J.J. Thomson", "Chadwick"],
+    "correct": 3
+  },
+  {
+    "question": "The atomic number of an element is equal to the number of:",
+    "options": ["Protons", "Neutrons", "Electrons", "Both A and C"],
+    "correct": 4
+  },
+  {
+    "question": "Rutherford's gold foil experiment led to the discovery of:",
+    "options": ["Electron", "Proton", "Neutron", "Nucleus"],
+    "correct": 4
+  },
+  {
+    "question": "Which model introduced fixed electron orbits?",
+    "options": ["Thomson's model", "Rutherford's model", "Bohr's model", "Quantum model"],
+    "correct": 3
+  },
+  {
+    "question": "Isotopes have the same number of:",
+    "options": ["Protons", "Neutrons", "Electrons", "Both A and C"],
+    "correct": 4
+  },
+  {
+    "question": "The neutron was discovered by:",
+    "options": ["J.J. Thomson", "E. Goldstein", "James Chadwick", "Niels Bohr"],
+    "correct": 3
+  },
+  {
+    "question": "Which isotope is used in carbon dating?",
+    "options": ["C-12", "C-13", "C-14", "C-11"],
+    "correct": 3
+  },
+  {
+    "question": "The maximum number of electrons in the M shell (n=3) is:",
+    "options": ["2", "8", "18", "32"],
+    "correct": 3
+  },
+  {
+    "question": "Who proposed the wave nature of electrons?",
+    "options": ["De Broglie", "Schrodinger", "Heisenberg", "Planck"],
+    "correct": 1
+  },
+  {
+    "question": "The electronic configuration of Nitrogen (Z=7) is:",
+    "options": ["1s² 2s² 2p³", "1s² 2s² 2p⁴", "1s² 2s² 2p⁵", "1s² 2s² 2p⁶"],
+    "correct": 1
+  },
+  {
+    "question": "An α-particle is:",
+    "options": ["A helium nucleus", "An electron", "A proton", "A neutron"],
+    "correct": 1
+  },
+  {
+    "question": "In the Bohr model, electrons emit energy when they:",
+    "options": ["Jump to a higher shell", "Remain in the same shell", "Jump to a lower shell", "Are stationary"],
+    "correct": 3
+  },
+  {
+    "question": "Which quantum number describes the shape of an orbital?",
+    "options": ["Principal", "Azimuthal", "Magnetic", "Spin"],
+    "correct": 2
+  },
+  {
+    "question": "Tritium is an isotope of:",
+    "options": ["Carbon", "Hydrogen", "Uranium", "Chlorine"],
+    "correct": 2
+  },
+  {
+    "question": "Which rule states that electrons fill orbitals singly first?",
+    "options": ["Aufbau Principle", "Pauli Exclusion Principle", "Hund's Rule", "Heisenberg's Principle"],
+    "correct": 3
+  },
+  {
+    "question": "The mass number is the sum of:",
+    "options": ["Protons and electrons", "Protons and neutrons", "Neutrons and electrons", "Protons, neutrons, and electrons"],
+    "correct": 2
+  },
+  {
+    "question": "Who discovered the proton?",
+    "options": ["J.J. Thomson", "Goldstein", "Rutherford", "Chadwick"],
+    "correct": 2
+  },
+  {
+    "question": "Uranium-235 is used in:",
+    "options": ["Medical tracers", "Nuclear reactors", "Carbon dating", "Smoke detectors"],
+    "correct": 2
+  },
+  {
+    "question": "The p-subshell can hold a maximum of:",
+    "options": ["2 electrons", "6 electrons", "10 electrons", "14 electrons"],
+    "correct": 2
+  },
+  {
+    "question": "The idea that electrons exist in probability clouds is from:",
+    "options": ["Bohr", "Rutherford", "Schrodinger", "Dalton"],
+    "correct": 3
+  },
+  {
+    "question": "How many neutrons are in Carbon-14?",
+    "options": ["6", "7", "8", "14"],
+    "correct": 3
+  },
+  {
+    "question": "The K shell corresponds to n =",
+    "options": ["1", "2", "3", "4"],
+    "correct": 1
+  },
+  {
+    "question": "Which isotope of hydrogen has no neutron?",
+    "options": ["Protium", "Deuterium", "Tritium", "All have neutrons"],
+    "correct": 1
+  },
+  {
+    "question": "The rule that no two electrons can have the same four quantum numbers is:",
+    "options": ["Hund's Rule", "Aufbau Principle", "Pauli Exclusion Principle", "Heisenberg Uncertainty Principle"],
+    "correct": 3
+  },
+  {
+    "question": "Technetium-99 is used in:",
+    "options": ["Nuclear fuel", "Medical imaging", "Radiocarbon dating", "Agriculture"],
+    "correct": 2
+  },
+  {
+    "question": "The modern Periodic Law is based on:",
+    "options": ["Atomic mass", "Atomic number", "Valence electrons", "Mass number"],
+    "correct": 2
+  },
+  {
+    "question": "How many periods are in the modern Periodic Table?",
+    "options": ["5", "6", "7", "8"],
+    "correct": 3
+  },
+  {
+    "question": "Elements in the same group have the same:",
+    "options": ["Atomic mass", "Number of shells", "Number of valence electrons", "Density"],
+    "correct": 3
+  },
+  {
+    "question": "The s-block elements include:",
+    "options": ["Groups 1 and 2", "Groups 13–18", "Transition metals", "Inner transition metals"],
+    "correct": 1
+  },
+  {
+    "question": "Which block contains the halogens?",
+    "options": ["s-block", "p-block", "d-block", "f-block"],
+    "correct": 2
+  },
+  {
+    "question": "Alkali metals belong to group:",
+    "options": ["1", "2", "17", "18"],
+    "correct": 1
+  },
+  {
+    "question": "Across a period from left to right, atomic size generally:",
+    "options": ["Increases", "Decreases", "Remains same", "First increases then decreases"],
+    "correct": 2
+  },
+  {
+    "question": "Down a group, ionization energy:",
+    "options": ["Increases", "Decreases", "First increases then decreases", "Remains constant"],
+    "correct": 2
+  },
+  {
+    "question": "Which element has the highest electronegativity?",
+    "options": ["Chlorine", "Oxygen", "Fluorine", "Nitrogen"],
+    "correct": 3
+  },
+  {
+    "question": "The shielding effect increases:",
+    "options": ["Across a period", "Down a group", "From right to left", "It remains constant"],
+    "correct": 2
+  },
+  {
+    "question": "Which of these is a noble gas?",
+    "options": ["Sodium", "Chlorine", "Argon", "Bromine"],
+    "correct": 3
+  },
+  {
+    "question": "Electron affinity is the energy:",
+    "options": ["Required to remove an electron", "Required to add an electron", "Released when an electron is added", "Released when an electron is removed"],
+    "correct": 3
+  },
+  {
+    "question": "In period 3, which element has the largest atomic radius?",
+    "options": ["Sodium", "Magnesium", "Chlorine", "Argon"],
+    "correct": 1
+  },
+  {
+    "question": "Which group elements have a complete valence shell?",
+    "options": ["Alkali metals", "Halogens", "Noble gases", "Alkaline earth metals"],
+    "correct": 3
+  },
+  {
+    "question": "d-block elements are also called:",
+    "options": ["Representative elements", "Transition elements", "Inner transition elements", "Rare earth elements"],
+    "correct": 2
+  },
+  {
+    "question": "The ability of an atom to attract shared electrons is called:",
+    "options": ["Ionization energy", "Electron affinity", "Electronegativity", "Atomic radius"],
+    "correct": 3
+  },
+  {
+    "question": "Which of these trends increases across a period?",
+    "options": ["Atomic radius", "Metallic character", "Ionization energy", "Shielding effect"],
+    "correct": 3
+  },
+  {
+    "question": "How many groups are in the Periodic Table?",
+    "options": ["7", "8", "18", "32"],
+    "correct": 3
+  },
+  {
+    "question": "Elements in period 2 have how many electron shells?",
+    "options": ["1", "2", "3", "4"],
+    "correct": 2
+  },
+  {
+    "question": "Which block contains the most nonmetals?",
+    "options": ["s-block", "p-block", "d-block", "f-block"],
+    "correct": 2
+  },
+  {
+    "question": "Which element is an alkali metal?",
+    "options": ["Calcium", "Potassium", "Aluminum", "Silicon"],
+    "correct": 2
+  },
+  {
+    "question": "As you move down group 17 (halogens), reactivity:",
+    "options": ["Increases", "Decreases", "Remains same", "First increases then decreases"],
+    "correct": 2
+  },
+  {
+    "question": "Which property decreases across a period?",
+    "options": ["Ionization energy", "Electronegativity", "Atomic radius", "Electron affinity"],
+    "correct": 3
+  },
+  {
+    "question": "The f-block elements are placed:",
+    "options": ["In groups 3–12", "At the top of the table", "Below the main table", "In groups 1 and 2"],
+    "correct": 3
+  },
+  {
+    "question": "The similarity in properties of elements in a group is due to:",
+    "options": ["Same number of shells", "Same atomic mass", "Same number of valence electrons", "Same density"],
+    "correct": 3
+  },
+  {
+    "question": "Atoms form chemical bonds to achieve:",
+    "options": ["Higher energy", "Noble gas configuration", "More protons", "Radioactivity"],
+    "correct": 2
+  },
+  {
+    "question": "The octet rule states that atoms tend to have ______ electrons in their valence shell.",
+    "options": ["2", "6", "8", "10"],
+    "correct": 3
+  },
+  {
+    "question": "Which rule applies to hydrogen?",
+    "options": ["Octet rule", "Duplet rule", "Triplet rule", "Hextet rule"],
+    "correct": 2
+  },
+  {
+    "question": "Ionic bonds form between:",
+    "options": ["Two metals", "Two nonmetals", "Metal and nonmetal", "Noble gases"],
+    "correct": 3
+  },
+  {
+    "question": "In NaCl formation, sodium becomes:",
+    "options": ["An anion", "A cation", "A molecule", "A free radical"],
+    "correct": 2
+  },
+  {
+    "question": "Covalent bonds involve:",
+    "options": ["Electron transfer", "Electron sharing", "Proton transfer", "Neutron sharing"],
+    "correct": 2
+  },
+  {
+    "question": "A single covalent bond consists of:",
+    "options": ["1 shared electron", "2 shared electrons", "3 shared electrons", "4 shared electrons"],
+    "correct": 2
+  },
+  {
+    "question": "Which molecule has a double bond?",
+    "options": ["H₂", "N₂", "O₂", "Cl₂"],
+    "correct": 3
+  },
+  {
+    "question": "Polar covalent bonds result from:",
+    "options": ["Equal sharing of electrons", "Unequal sharing of electrons", "Complete electron transfer", "No electron sharing"],
+    "correct": 2
+  },
+  {
+    "question": "Which compound is ionic?",
+    "options": ["H₂O", "CO₂", "NaCl", "CH₄"],
+    "correct": 3
+  },
+  {
+    "question": "Hydrogen bonding occurs when hydrogen is bonded to:",
+    "options": ["Carbon", "Sodium", "Fluorine", "Chlorine"],
+    "correct": 3
+  },
+  {
+    "question": "Which intermolecular force is the weakest?",
+    "options": ["Hydrogen bonding", "Dipole-dipole forces", "London dispersion forces", "Ionic bonding"],
+    "correct": 3
+  },
+  {
+    "question": "Ionic compounds generally have:",
+    "options": ["Low melting points", "High melting points", "No melting points", "Variable melting points"],
+    "correct": 2
+  },
+  {
+    "question": "How many valence electrons does oxygen have?",
+    "options": ["2", "4", "6", "8"],
+    "correct": 3
+  },
+  {
+    "question": "Which molecule has a triple bond?",
+    "options": ["O₂", "N₂", "H₂", "F₂"],
+    "correct": 2
+  },
+  {
+    "question": "The electron dot structure for water shows:",
+    "options": ["Single bonds only", "Double bonds", "Triple bonds", "Ionic bonds"],
+    "correct": 1
+  },
+  {
+    "question": "Which property is typical of covalent compounds?",
+    "options": ["Conduct electricity when molten", "High melting point", "Soluble in water", "Low melting point"],
+    "correct": 4
+  },
+  {
+    "question": "In a polar molecule:",
+    "options": ["Charges are evenly distributed", "There is a positive and negative end", "No dipole moment exists", "It is always ionic"],
+    "correct": 2
+  },
+  {
+    "question": "London dispersion forces exist in:",
+    "options": ["Only polar molecules", "Only nonpolar molecules", "Only ionic compounds", "All molecules"],
+    "correct": 4
+  },
+  {
+    "question": "Which element can form the most covalent bonds?",
+    "options": ["Hydrogen", "Oxygen", "Carbon", "Neon"],
+    "correct": 3
+  },
+  {
+    "question": "The bond in HCl is:",
+    "options": ["Pure ionic", "Pure covalent", "Polar covalent", "Metallic"],
+    "correct": 3
+  },
+  {
+    "question": "Which compound exhibits hydrogen bonding?",
+    "options": ["CH₄", "NH₃", "NaCl", "CO₂"],
+    "correct": 2
+  },
+  {
+    "question": "Ionic compounds are usually soluble in:",
+    "options": ["Oil", "Water", "Benzene", "All organic solvents"],
+    "correct": 2
+  },
+  {
+    "question": "How many bonds can a nitrogen atom typically form?",
+    "options": ["1", "2", "3", "4"],
+    "correct": 3
+  },
+  {
+    "question": "The shape of the periodic table can help predict:",
+    "options": ["Only atomic mass", "Only density", "Type of bonding an element forms", "Color of elements"],
+    "correct": 3
+  }
+];
+
+let questions = [...ORIGINAL_QUESTIONS];
+let shuffledQuestions = [];
+let timeLeft = DURATION;
+let timer;
+let testStarted = false;
+
+// Fisher-Yates shuffle algorithm
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function shuffleQuestions() {
+  if (confirm("Are you sure you want to shuffle questions and restart the test? Your current answers will be lost.")) {
+    clearInterval(timer);
+    shuffledQuestions = shuffleArray(questions);
+    displayQuestions();
+    timeLeft = DURATION;
+    startTimer();
+  }
+}
+
+function displayQuestions() {
+  const container = document.getElementById("questionsContainer");
+  container.innerHTML = "";
+  
+  const questionsToDisplay = shuffledQuestions.length > 0 ? shuffledQuestions : questions;
+  
+  questionsToDisplay.forEach((q, index) => {
+    const questionDiv = document.createElement("div");
+    questionDiv.className = "question-block";
+    
+    questionDiv.innerHTML = `
+      <p>${index + 1}. ${q.question}</p>
+      <label class="option">
+        <input type="radio" name="q${index}" value="1">
+        <span>${q.options[0]}</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q${index}" value="2">
+        <span>${q.options[1]}</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q${index}" value="3">
+        <span>${q.options[2]}</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q${index}" value="4">
+        <span>${q.options[3]}</span>
+      </label>
+    `;
+    container.appendChild(questionDiv);
+  });
+}
+
+function startTimer() {
+  timer = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    
+    document.getElementById("timer").innerHTML = 
+      `<i class="clock-icon">⏰</i> Time Left: ${minutes}:${seconds.toString().padStart(2, "0")}`;
+    
+    timeLeft--;
+    
+    if (timeLeft < 0) {
+      clearInterval(timer);
+      submitTest();
+    }
+    
+    // Color change when time is running out
+    if (timeLeft < 300) { // Less than 5 minutes
+      document.getElementById("timer").style.color = "#ef4444";
+      document.getElementById("timer").style.background = "#fee2e2";
+    }
+  }, 1000);
+}
+
+function startTest() {
+  const now = new Date();
+  if (now < TEST_START || now > TEST_END) {
+    alert("Test is not active at this time. Please check the test schedule.");
+    return;
+  }
+  
+  const studentName = document.getElementById("studentName").value.trim();
+  const fatherName = document.getElementById("fatherName").value.trim();
+  const district = document.getElementById("district").value.trim();
+  const password = document.getElementById("testPass").value;
+  
+  if (!studentName || !fatherName || !district || !password) {
+    alert("Please fill in all fields before starting the test.");
+    return;
+  }
+  
+  if (password !== TEST_PASSWORD) {
+    alert("Wrong Password. Please enter the correct test password.");
+    return;
+  }
+  
+  document.getElementById("loginSection").classList.add("hidden");
+  document.getElementById("testSection").classList.remove("hidden");
+  
+  testStarted = true;
+  shuffledQuestions = [];
+  displayQuestions();
+  startTimer();
+}
+
+function submitTest() {
+  clearInterval(timer);
+  
+  let score = 0;
+  const questionsToCheck = shuffledQuestions.length > 0 ? shuffledQuestions : questions;
+  
+  questionsToCheck.forEach((q, index) => {
+    const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+    if (selectedOption && parseInt(selectedOption.value) === q.correct) {
+      score++;
+    }
+  });
+  
+  const total = questionsToCheck.length;
+  const percent = Math.round((score / total) * 100);
+  const grade = percent >= 80 ? "A" : percent >= 60 ? "B" : percent >= 40 ? "C" : "Fail";
+  
+  const record = {
+    name: document.getElementById("studentName").value.trim(),
+    father: document.getElementById("fatherName").value.trim(),
+    district: document.getElementById("district").value.trim(),
+    score,
+    total,
+    percent,
+    grade,
+    date: new Date().toLocaleString(),
+    timestamp: new Date().getTime()
+  };
+  
+  // SAVE LOCALLY
+  let results = JSON.parse(localStorage.getItem("ncatResults")) || [];
+  results.push(record);
+  localStorage.setItem("ncatResults", JSON.stringify(results));
+  
+  // SHOW STUDENT RESULT
+  document.getElementById("testSection").classList.add("hidden");
+  document.getElementById("studentResult").classList.remove("hidden");
+  
+  document.getElementById("resultText").innerHTML = `
+    <strong>Name:</strong> ${record.name}<br>
+    <strong>Father's Name:</strong> ${record.father}<br>
+    <strong>District:</strong> ${record.district}<br>
+    <strong>Score:</strong> ${score}/${total}<br>
+    <strong>Percentage:</strong> ${percent}%<br>
+    <strong>Grade:</strong> ${grade}<br>
+    <strong>Date:</strong> ${record.date}
+  `;
+  
+  if (grade !== "Fail") {
+    document.getElementById("certificate").classList.remove("hidden");
+    document.getElementById("certText").innerHTML = 
+      `This certifies that <strong>${record.name}</strong>, S/O <strong>${record.father}</strong>, 
+      from <strong>${record.district}</strong> has successfully passed the NCAT Crash Course E-Test 
+      with grade <strong>${grade}</strong>.`;
+    document.getElementById("certDate").textContent = record.date;
+  }
+}
+
+function resetTest() {
+  // Clear form fields
+  document.getElementById("studentName").value = "";
+  document.getElementById("fatherName").value = "";
+  document.getElementById("district").value = "";
+  document.getElementById("testPass").value = "";
+  
+  // Reset all radio buttons
+  document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.checked = false;
+  });
+  
+  // Reset questions to original order
+  shuffledQuestions = [];
+  
+  // Show login section, hide others
+  document.getElementById("studentResult").classList.add("hidden");
+  document.getElementById("testSection").classList.add("hidden");
+  document.getElementById("loginSection").classList.remove("hidden");
+  
+  // Reset timer variables
+  timeLeft = DURATION;
+  testStarted = false;
+  
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+</script>
+
+<!-- ADMIN BUTTON -->
+<div style="text-align:center; margin-top: 20px;">
+  <button id="adminBtn">Admin Portal</button>
+</div>
+
+<script>
+document.getElementById("adminBtn").addEventListener("click", function() {
+  let pass = prompt("Enter Admin Password:");
+  if (pass === "a1ncat.123") {
+    window.open("results.html", "_blank");
+  } else {
+    alert("Wrong password. Access denied.");
+  }
+});
+</script>
+
+</body>
+</html>
